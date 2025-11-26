@@ -1,11 +1,11 @@
 # 🧠 Neuro-Symbolic Supply Chain Twin
 
-**A hybrid AI system bridging the gap between Probabilistic Deep Learning and Deterministic Business Logic.**
+**A hybrid AI system bridging the gap between Classical NLP, Probabilistic Deep Learning, and Deterministic Business Logic.**
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
 ![Architecture](https://img.shields.io/badge/Architecture-Neuro--Symbolic-purple)
 ![AI](https://img.shields.io/badge/AI-SentenceTransformers-green)
-![Status](https://img.shields.io/badge/Status-Prototype-orange)
+![NLP](https://img.shields.io/badge/NLP-NLTK-yellow)
 
 ---
 
@@ -15,7 +15,7 @@ In enterprise inventory management, two competing paradigms usually exist:
 1.  **Traditional Systems:** Rigid, rule-based, and fail to understand natural human intent (e.g., keyword search fails on synonyms).
 2.  **Pure Generative AI:** Flexible and capable of understanding context, but prone to "hallucinations" (e.g., inventing discounts or stock that doesn't exist).
 
-This project implements a **Neuro-Symbolic Architecture** that combines the best of both worlds. It uses **Vector Embeddings** for semantic understanding (The "Neuro" Brain) and a **Logic Engine** for safety and compliance (The "Symbolic" Guardrails).
+This project implements a **Neuro-Symbolic Architecture** that combines the best of both worlds. It uses a **Multi-Stage NLP Pipeline** for intent understanding (The "Neuro" Brain) and a **Logic Engine** for safety and compliance (The "Symbolic" Guardrails).
 
 ---
 
@@ -23,11 +23,14 @@ This project implements a **Neuro-Symbolic Architecture** that combines the best
 
 The system operates in a decoupled, layered pipeline:
 
-### 1. The Neuro Layer (Perception & Retrieval)
-* **Technology:** `sentence-transformers` (Hugging Face `all-MiniLM-L6-v2`).
-* **Function:** Converts user queries (natural language) and product descriptions into high-dimensional vectors.
-* **Process:** Uses **Cosine Similarity** to retrieve products based on *meaning* rather than exact keyword matching.
-    * *Example:* User searches *"Device for heavy coding"* $\rightarrow$ System retrieves *"WorkMate Pro Laptop"* (even if the word 'coding' isn't in the text).
+### 1. The Neuro Layer (NLP & Perception)
+This layer transforms raw text into machine-understandable signals using a hybrid approach:
+* **Stage A: Text Preprocessing (NLTK):**
+    * Utilizes **Natural Language Toolkit (NLTK)** for noise reduction.
+    * Performs tokenization and stop-word removal to filter out irrelevant signals (e.g., "I", "want", "a") before embedding.
+* **Stage B: Semantic Embedding (Transformers):**
+    * Uses **HuggingFace SentenceTransformers** (`all-MiniLM-L6-v2`) to convert the cleaned text into high-dimensional vectors.
+    * Retrieves products based on *meaning* (Cosine Similarity) rather than exact keyword matching.
 
 ### 2. The Symbolic Layer (Reasoning & Control)
 * **Technology:** Custom Python-based Inference Engine.
@@ -47,7 +50,7 @@ The system operates in a decoupled, layered pipeline:
 ## 🚀 Key Capabilities
 
 ### 🧠 Semantic Search (Beyond Keywords)
-Unlike standard SQL queries (`WHERE name LIKE '%query%'`), this system understands context. It handles typos, synonyms, and intent, solving the "Zero Results" problem common in e-commerce.
+Unlike standard SQL queries (`WHERE name LIKE '%query%'`), this system understands context. By preprocessing with **NLTK** and vectorizing with **Transformers**, it solves the "Zero Results" problem common in e-commerce.
 
 ### 🛡️ Explainable AI (XAI)
 The system provides total transparency. Every recommendation includes a dynamic explanation:
@@ -59,25 +62,4 @@ This builds trust—users know exactly why an item was suggested.
 Business policies are decoupled from the code. A non-technical manager can update `rules.json` (e.g., change the "High Discount" threshold from 20% to 30%) and the agent adapts instantly without recompiling.
 
 ---
-
-## 🛠️ Technology Stack
-
-| Domain | Tools Used |
-| :--- | :--- |
-| **Language** | Python 3.x |
-| **AI / NLP** | SentenceTransformers, Scikit-Learn, NumPy |
-| **Data Layer** | SQLite3 (Relational), Vector Embeddings (In-memory) |
-| **Frontend** | Streamlit |
-| **Architecture** | Modular (Separation of Concerns) |
-
----
-
-## 🔮 Future Enhancements
-
-* **RAG Integration:** Connecting the inventory DB to an LLM (Llama 3) for conversational analytics.
-* **Predictive Analytics:** Using LSTM networks to forecast stock depletion rates based on the "Demand" attribute.
-* **Vector Database:** Migrating from in-memory arrays to Pinecone/ChromaDB for million-scale item retrieval.
-
----
-
 Dharani Krishna
