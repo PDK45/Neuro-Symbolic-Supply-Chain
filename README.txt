@@ -1,153 +1,83 @@
-# 📦 **Inventory Knowledge‑Based Agent (KBA)**
+# 🧠 Neuro-Symbolic Supply Chain Twin
 
-A highly modular, intelligent, and rule‑driven **Knowledge‑Based Agent** designed to automate inventory decision‑making, optimize stock operations, and provide real‑time insights through a modern Streamlit front‑end.
+**A hybrid AI system bridging the gap between Probabilistic Deep Learning and Deterministic Business Logic.**
 
-This system combines:
-
-* A **declarative rule engine**,
-* A **structured knowledge base**,
-* A **forward‑chaining inference agent**, and
-* An **interactive Streamlit UI**,
-
-to create an enterprise‑grade inventory automation solution.
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
+![Architecture](https://img.shields.io/badge/Architecture-Neuro--Symbolic-purple)
+![AI](https://img.shields.io/badge/AI-SentenceTransformers-green)
+![Status](https://img.shields.io/badge/Status-Prototype-orange)
 
 ---
 
-## 🚀 **Project Overview**
+## 📖 The Concept
 
-This project demonstrates how classical AI methodologies—specifically **Knowledge‑Based Systems**—can be applied to solve practical business problems such as inventory management.
+In enterprise inventory management, two competing paradigms usually exist:
+1.  **Traditional Systems:** Rigid, rule-based, and fail to understand natural human intent (e.g., keyword search fails on synonyms).
+2.  **Pure Generative AI:** Flexible and capable of understanding context, but prone to "hallucinations" (e.g., inventing discounts or stock that doesn't exist).
 
-Your agent:
-
-* Reads structured inventory facts (JSON)
-* Evaluates them against well‑defined domain rules
-* Fires intelligent, explainable actions
-* Provides insights through an intuitive UI
-* Allows live editing of inventory data
-* Re-applies rule reasoning instantly
-
-The system functions like a production‑ready backend used by inventory teams, warehouses, and retail systems.
+This project implements a **Neuro-Symbolic Architecture** that combines the best of both worlds. It uses **Vector Embeddings** for semantic understanding (The "Neuro" Brain) and a **Logic Engine** for safety and compliance (The "Symbolic" Guardrails).
 
 ---
 
-## 🧠 **Knowledge‑Based Agent (Core AI Brain)**
+## 🏗️ System Architecture
 
-The agent is implemented in `agent.py` and follows the classic architecture:
+The system operates in a decoupled, layered pipeline:
 
-### **Knowledge = Facts**
+### 1. The Neuro Layer (Perception & Retrieval)
+* **Technology:** `sentence-transformers` (Hugging Face `all-MiniLM-L6-v2`).
+* **Function:** Converts user queries (natural language) and product descriptions into high-dimensional vectors.
+* **Process:** Uses **Cosine Similarity** to retrieve products based on *meaning* rather than exact keyword matching.
+    * *Example:* User searches *"Device for heavy coding"* $\rightarrow$ System retrieves *"WorkMate Pro Laptop"* (even if the word 'coding' isn't in the text).
 
-Stored in `inventory.json`, including:
+### 2. The Symbolic Layer (Reasoning & Control)
+* **Technology:** Custom Python-based Inference Engine.
+* **Function:** Applies strict business rules defined in external JSON configurations.
+* **Process:** Evaluates retrieved items against hard constraints:
+    * *Stock Availability*
+    * *Budget Caps*
+    * *Expiry Risk*
+    * *Discount Thresholds*
 
-* Quantity
-* Reorder level
-* Overstock threshold
-* Expiry date
-* Demand
-* Metadata
-
-### **Inference = Rule Engine**
-
-Stored in `rules.json`, including rules like:
-
-* Low stock → Reorder
-* Overstock → Mark for sale
-* High demand → Priority restock
-* Near expiry → Investigate
-
-### **Control = Agent Logic**
-
-The agent:
-
-1. Loads all facts from the Knowledge Base
-2. Loads all rules from the Rule Base
-3. Matches facts to rule conditions
-4. Fires actions when conditions are satisfied
-5. Returns structured outputs back to the UI or CLI
-
-This creates a fully autonomous decision‑making engine.
+### 3. The Application Layer (Interaction)
+* **Technology:** Streamlit & SQLite.
+* **Function:** Provides a real-time interface for users to interact with the inventory, view AI confidence scores, and see the "Why" behind every recommendation.
 
 ---
 
-## 🔧 **Rule Engine (Declarative, Explainable, Extensible)**
+## 🚀 Key Capabilities
 
-The rule engine in `rules_engine.py` is designed for:
+### 🧠 Semantic Search (Beyond Keywords)
+Unlike standard SQL queries (`WHERE name LIKE '%query%'`), this system understands context. It handles typos, synonyms, and intent, solving the "Zero Results" problem common in e-commerce.
 
-* Safe and controlled evaluation
-* Priority‑based rule conflict resolution
-* Human‑readable rule expressions
-* Multi‑condition AND logic
-* Multiple action triggers per rule
+### 🛡️ Explainable AI (XAI)
+The system provides total transparency. Every recommendation includes a dynamic explanation:
+* **AI Reason:** "Matched 85% with your search intent."
+* **Logic Reason:** "Selected because Discount > 20% and Stock is Low."
+This builds trust—users know exactly why an item was suggested.
 
-Example rule:
-
-```
-IF quantity <= reorder_level
-THEN REORDER item
-```
-
-Rules are fully **decoupled** from the code, enabling business teams to update policy without restarting the system.
+### ⚡ Dynamic Rule Injection
+Business policies are decoupled from the code. A non-technical manager can update `rules.json` (e.g., change the "High Discount" threshold from 20% to 30%) and the agent adapts instantly without recompiling.
 
 ---
 
-## 🧩 **Knowledge Base (Fact Management)**
+## 🛠️ Technology Stack
 
-Implemented in `knowledge_base.py`, it:
-
-* Loads/saves inventory facts
-* Computes derived attributes (days until expiry, demand pressure, stock risk)
-* Provides a clean dictionary of facts for rule matching
-* Ensures data consistency
-
-This forms the "world state" for the agent.
-
----
-
-## 🌐 **Streamlit Front‑End Dashboard (User Interaction Layer)**
-
-The UI (`app.py`) provides:
-
-### ✔ Real‑time item insights
-
-### ✔ Editable inventory values (quantity / reorder level / expiry / etc.)
-
-### ✔ One‑click triggering of agent‑recommended actions
-
-### ✔ Full visualization of rule‑based reasoning
-
-### ✔ Automatic syncing with JSON data
-
-This turns the system from a backend algorithm into a **full operational tool**.
+| Domain | Tools Used |
+| :--- | :--- |
+| **Language** | Python 3.x |
+| **AI / NLP** | SentenceTransformers, Scikit-Learn, NumPy |
+| **Data Layer** | SQLite3 (Relational), Vector Embeddings (In-memory) |
+| **Frontend** | Streamlit |
+| **Architecture** | Modular (Separation of Concerns) |
 
 ---
 
-```
-               ┌─────────────────────────┐
-               │       Streamlit UI      │
-               │    (Interaction Layer)  │
-               └─────────────┬───────────┘
-                             │
-                             ▼
-               ┌─────────────────────────┐
-               │     Inventory Agent     │
-               │        (agent.py)       │
-               └─────────────┬───────────┘
-                             │
-  ┌──────────────────────────┼───────────────────────────┐
-  ▼                          ▼                           ▼
-```
+## 🔮 Future Enhancements
 
-┌──────────────┐       ┌───────────────────┐        ┌──────────────────┐
-│ Knowledge    │       │   Rule Engine     │        │ Utility Module   │
-│ Base (facts) │       │  (rules_engine)   │        │  (expiry, dates) │
-└──────────────┘       └───────────────────┘        └──────────────────┘
-│
-▼
-┌──────────────────┐
-│   Actions Fired   │
-└──────────────────┘
+* **RAG Integration:** Connecting the inventory DB to an LLM (Llama 3) for conversational analytics.
+* **Predictive Analytics:** Using LSTM networks to forecast stock depletion rates based on the "Demand" attribute.
+* **Vector Database:** Migrating from in-memory arrays to Pinecone/ChromaDB for million-scale item retrieval.
 
-```
+---
+
 Dharani Krishna
-
-
-
